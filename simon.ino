@@ -41,9 +41,15 @@ void flashAndTone(int i, int length = 200) {
   digitalWrite(lights[i], LOW);
 }
 
-void setup() {
-  randomSeed(analogRead(NOISE));
+unsigned long entropy() {
+  return millis()
+    + analogRead(5)
+    + (analogRead(13) * 2)
+    + (analogRead(A1) * 4)
+    + (analogRead(A5) * 8);
+}
 
+void setup() {
   for (int pin : lights) {
     pinMode(pin, OUTPUT);
   }
@@ -82,6 +88,7 @@ void loopWaiting() {
 }
 
 void startGame() {
+  randomSeed(entropy());
   for (int i=0; i < 4; i++) {
     digitalWrite(lights[i], LOW);
   }
